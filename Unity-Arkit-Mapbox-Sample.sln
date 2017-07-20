@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio for Mac
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity-Arkit-Mapbox-Sample.Plugins", "Unity-Arkit-Mapbox-Sample.Plugins.csproj", "{84CE884A-DA53-DCC9-5D82-B4B22DE757E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity-Arkit-Mapbox-Sample", "Unity-Arkit-Mapbox-Sample.csproj", "{D47FF601-BD0B-6C4E-288D-AD7E1E573F7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity-Arkit-Mapbox-Sample.Editor.Plugins", "Unity-Arkit-Mapbox-Sample.Editor.Plugins.csproj", "{0BC646B6-39A4-4795-CE8B-840F3BE4063F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity-Arkit-Mapbox-Sample.Editor", "Unity-Arkit-Mapbox-Sample.Editor.csproj", "{163E3790-6694-8DB1-9CA1-A224D73A2B38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84CE884A-DA53-DCC9-5D82-B4B22DE757E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84CE884A-DA53-DCC9-5D82-B4B22DE757E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84CE884A-DA53-DCC9-5D82-B4B22DE757E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84CE884A-DA53-DCC9-5D82-B4B22DE757E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D47FF601-BD0B-6C4E-288D-AD7E1E573F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D47FF601-BD0B-6C4E-288D-AD7E1E573F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D47FF601-BD0B-6C4E-288D-AD7E1E573F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D47FF601-BD0B-6C4E-288D-AD7E1E573F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BC646B6-39A4-4795-CE8B-840F3BE4063F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BC646B6-39A4-4795-CE8B-840F3BE4063F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BC646B6-39A4-4795-CE8B-840F3BE4063F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BC646B6-39A4-4795-CE8B-840F3BE4063F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{163E3790-6694-8DB1-9CA1-A224D73A2B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{163E3790-6694-8DB1-9CA1-A224D73A2B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{163E3790-6694-8DB1-9CA1-A224D73A2B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{163E3790-6694-8DB1-9CA1-A224D73A2B38}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

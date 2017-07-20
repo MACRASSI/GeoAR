@@ -1,0 +1,13 @@
+﻿<Properties StartupConfiguration="{D47FF601-BD0B-6C4E-288D-AD7E1E573F7F}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../Downloads/zugspitze-ehrwald.gpx">
+    <Files>
+      <File FileName="../../Downloads/zugspitze-ehrwald.gpx" Line="3348" Column="18" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
