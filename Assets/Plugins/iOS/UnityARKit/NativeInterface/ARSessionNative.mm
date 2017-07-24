@@ -88,10 +88,20 @@ enum UnityARTrackingReason
 
 typedef struct
 {
+    uint32_t yWidth;
+    uint32_t yHeight;
+    uint32_t screenOrientation;
+    float texCoordScale;
+    void* cvPixelBufferPtr;
+}UnityVideoParams;
+
+typedef struct
+{
     UnityARMatrix4x4 worldTransform;
     UnityARMatrix4x4 projectionMatrix;
     UnityARTrackingState trackingState;
     UnityARTrackingReason trackingReason;
+    UnityVideoParams videoParams;
     uint32_t getPointCloudData;
 } UnityARCamera;
 
@@ -100,6 +110,15 @@ typedef struct
     vector_float3* pointCloud;
     NSUInteger pointCloudSize;
 } UnityARPointCloudData;
+
+typedef struct
+{
+    void* pYPixelBytes;
+    void* pUVPixelBytes;
+    BOOL bEnable;
+}UnityPixelBuffer;
+
+
 
 typedef void (*UNITY_AR_FRAME_CALLBACK)(UnityARCamera camera);
 typedef void (*UNITY_AR_ANCHOR_CALLBACK)(UnityARAnchorData anchorData);
@@ -336,6 +355,7 @@ inline void UnityARUserAnchorDataFromARAnchorPtr(UnityARUserAnchorData& anchorDa
     }
 
 @end
+static UnityPixelBuffer s_UnityPixelBuffers;
 
 @interface UnityARSession : NSObject <ARSessionDelegate>
 {
@@ -401,10 +421,27 @@ static CGAffineTransform s_CurAffineTransform;
 
     GetUnityARCameraDataFromCamera(unityARCamera, frame.camera, _getPointCloudData);
 
+    
+    CVPixelBufferRef pixelBuffer = frame.capturedImage;
+    
+    size_t imageWidth = CVPixelBufferGetWidth(pixelBuffer);
+    size_t imageHeight = CVPixelBufferGetHeight(pixelBuffer);
+    
+    float imageAspect = (float)imageWidth / (float)imageHeight;
+    float screenAspect = nativeBounds.size.height / nativeBounds.size.width;
+    unityARCamera.videoParams.texCoordScale =  screenAspect / imageAspect;
+    s_ShaderScale = screenAspect / imageAspect;
+    
+    unityARCamera.videoParams.yWidth = imageWidth;
+    unityARCamera.videoParams.yHeight = imageHeight;
+    unityARCamera.videoParams.cvPixelBufferPtr = (void *) pixelBuffer;
+    
+
     if (_frameCallback != NULL)
     {
 
         matrix_float4x4 rotatedMatrix = matrix_identity_float4x4;
+        unityARCamera.videoParams.screenOrientation = 3;
 
         // rotation  matrix
         // [ cos    -sin]
@@ -415,18 +452,21 @@ static CGAffineTransform s_CurAffineTransform;
                 rotatedMatrix.columns[0][1] = 1;
                 rotatedMatrix.columns[1][0] = -1;
                 rotatedMatrix.columns[1][1] = 0;
+                unityARCamera.videoParams.screenOrientation = 1;
                 break;
             case UIInterfaceOrientationLandscapeLeft:
                 rotatedMatrix.columns[0][0] = -1;
                 rotatedMatrix.columns[0][1] = 0;
                 rotatedMatrix.columns[1][0] = 0;
                 rotatedMatrix.columns[1][1] = -1;
+                unityARCamera.videoParams.screenOrientation = 4;
                 break;
             case UIInterfaceOrientationPortraitUpsideDown:
                 rotatedMatrix.columns[0][0] = 0;
                 rotatedMatrix.columns[0][1] = -1;
                 rotatedMatrix.columns[1][0] = 1;
                 rotatedMatrix.columns[1][1] = 0;
+                unityARCamera.videoParams.screenOrientation = 2;
                 break;
             default:
                 break;
@@ -441,19 +481,32 @@ static CGAffineTransform s_CurAffineTransform;
         });
     }
 
-    CVPixelBufferRef pixelBuffer = frame.capturedImage;
-
-    size_t imageWidth = CVPixelBufferGetWidth(pixelBuffer);
-    size_t imageHeight = CVPixelBufferGetHeight(pixelBuffer);
-
-    float imageAspect = (float)imageWidth / (float)imageHeight;
-    float screenAspect = nativeBounds.size.height / nativeBounds.size.width;
-    s_ShaderScale = screenAspect / imageAspect;
-
+    
     if (CVPixelBufferGetPlaneCount(pixelBuffer) < 2 || CVPixelBufferGetPixelFormatType(pixelBuffer) != kCVPixelFormatType_420YpCbCr8BiPlanarFullRange) {
         return;
     }
-
+    
+    if (s_UnityPixelBuffers.bEnable)
+    {
+        
+        CVPixelBufferLockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
+        
+        if (s_UnityPixelBuffers.pYPixelBytes)
+        {
+            uint32_t numBytes = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0) * CVPixelBufferGetHeightOfPlane(pixelBuffer,0);
+            void* baseAddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer,0);
+            memcpy(s_UnityPixelBuffers.pYPixelBytes, baseAddress, numBytes);
+        }
+        if (s_UnityPixelBuffers.pUVPixelBytes)
+        {
+            uint32_t numBytes = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1) * CVPixelBufferGetHeightOfPlane(pixelBuffer,1);
+            void* baseAddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer,1);
+            memcpy(s_UnityPixelBuffers.pUVPixelBytes, baseAddress, numBytes);
+        }
+        
+        CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+    }
+    
     id<MTLTexture> textureY = nil;
     id<MTLTexture> textureCbCr = nil;
 
@@ -462,7 +515,8 @@ static CGAffineTransform s_CurAffineTransform;
         const size_t width = CVPixelBufferGetWidthOfPlane(pixelBuffer, 0);
         const size_t height = CVPixelBufferGetHeightOfPlane(pixelBuffer, 0);
         MTLPixelFormat pixelFormat = MTLPixelFormatR8Unorm;
-
+        
+        
         CVMetalTextureRef texture = NULL;
         CVReturn status = CVMetalTextureCacheCreateTextureFromImage(NULL, _textureCache, pixelBuffer, NULL, pixelFormat, width, height, 0, &texture);
         if(status == kCVReturnSuccess)
@@ -584,6 +638,7 @@ extern "C" void* unity_CreateNativeARSession()
     nativeSession->_session.delegate = nativeSession;
     unityCameraNearZ = .01;
     unityCameraFarZ = 30;
+    s_UnityPixelBuffers.bEnable = false;
     return (__bridge_retained void*)nativeSession;
 }
 
@@ -716,6 +771,19 @@ extern "C" void SetCameraNearFar (float nearZ, float farZ)
 {
     unityCameraNearZ = nearZ;
     unityCameraFarZ = farZ;
+}
+
+extern "C" void CapturePixelData (uint32_t enable, void* pYPixelBytes, void *pUVPixelBytes)
+{
+    s_UnityPixelBuffers.bEnable = (BOOL) enable;
+    if (s_UnityPixelBuffers.bEnable)
+    {
+        s_UnityPixelBuffers.pYPixelBytes = pYPixelBytes;
+        s_UnityPixelBuffers.pUVPixelBytes = pUVPixelBytes;
+    } else {
+        s_UnityPixelBuffers.pYPixelBytes = NULL;
+        s_UnityPixelBuffers.pUVPixelBytes = NULL;
+    }
 }
 
 extern "C" struct HitTestResult

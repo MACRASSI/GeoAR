@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{403C991D-BD92-E12E-A8F2-EC3115082D7C}|">
+  <MonoDevelop.Ide.ItemProperties.GeoAR2 PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/RasterMap.cs">
+    <Files>
+      <File FileName="Assets/RasterMap.cs" Line="39" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

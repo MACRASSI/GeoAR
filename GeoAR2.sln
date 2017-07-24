@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio for Mac
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoAR2", "GeoAR2.csproj", "{403C991D-BD92-E12E-A8F2-EC3115082D7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoAR2.Plugins", "GeoAR2.Plugins.csproj", "{40BE4423-A541-56C5-C2C0-CB92C1E3FFF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoAR2.Editor", "GeoAR2.Editor.csproj", "{E84E5B7E-8E4F-FB39-BA70-3BE6CC7EB329}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoAR2.Editor.Plugins", "GeoAR2.Editor.Plugins.csproj", "{E963FC70-4D86-98C6-3006-B532B2182FC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{403C991D-BD92-E12E-A8F2-EC3115082D7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{403C991D-BD92-E12E-A8F2-EC3115082D7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{403C991D-BD92-E12E-A8F2-EC3115082D7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{403C991D-BD92-E12E-A8F2-EC3115082D7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40BE4423-A541-56C5-C2C0-CB92C1E3FFF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40BE4423-A541-56C5-C2C0-CB92C1E3FFF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40BE4423-A541-56C5-C2C0-CB92C1E3FFF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40BE4423-A541-56C5-C2C0-CB92C1E3FFF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E84E5B7E-8E4F-FB39-BA70-3BE6CC7EB329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E84E5B7E-8E4F-FB39-BA70-3BE6CC7EB329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E84E5B7E-8E4F-FB39-BA70-3BE6CC7EB329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E84E5B7E-8E4F-FB39-BA70-3BE6CC7EB329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E963FC70-4D86-98C6-3006-B532B2182FC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E963FC70-4D86-98C6-3006-B532B2182FC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E963FC70-4D86-98C6-3006-B532B2182FC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E963FC70-4D86-98C6-3006-B532B2182FC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
